@@ -12,6 +12,7 @@ import techorda.bitlab.springSprintTask2.model.ApplicationRequest;
 import techorda.bitlab.springSprintTask2.repository.RequestRepository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class HomeController {
@@ -69,14 +70,14 @@ public class HomeController {
 
     @GetMapping(value = "/new-requests")
     public String newRequests(Model model) {
-        ArrayList<ApplicationRequest> requests = (ArrayList<ApplicationRequest>) requestRepository.findAll();
+        List<ApplicationRequest> requests = requestRepository.findAllByHandledEquals(false);
         model.addAttribute("zaps", requests);
         return "newRequests";
     }
 
     @GetMapping(value = "/handled-requests")
     public String handledRequests(Model model) {
-        ArrayList<ApplicationRequest> requests = (ArrayList<ApplicationRequest>) requestRepository.findAll();
+        List<ApplicationRequest> requests = requestRepository.findAllByHandledEquals(true);
         model.addAttribute("zaps", requests);
         return "handledRequests";
     }
