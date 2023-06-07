@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/main">
+<div layout:fragment="mainFragment">
+    <form th:action="@{/toHandle}" method="post">
+        <input type="hidden" th:value="${zapros.id}" th:name="h_id">
+        <div class="row">
+            <div class="col-6 mx-auto mb-1">
+                <h4 class="text-center text-success bold text-success" th:if="${zapros.isHandled()}">Обработанная
+                    заявка</h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 mx-auto mb-1">
+                <h4 class="text-center text-success bold text-danger" th:unless="${zapros.isHandled()}">*** Новая
+                    необработанная заявка ***</h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 mx-auto mb-1">
+                <label th:text="'ФИО:'"></label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 mx-auto mb-3">
+                <input type="text" placeholder="ФИО:" class="form-control" th:value="${zapros.getUserName()}" readonly
+                       disabled>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 mx-auto mb-1">
+                <label th:text="'Курс:'"></label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 mx-auto mb-3">
+                <select class="form-select" th:name="a_course" disabled>
+                    <option th:selected="${zapros.getCourseName().equals('Java Standard Edition')}">Java Standard
+                        Edition
+                    </option>
+                    <option th:selected="${zapros.getCourseName().equals('Web Technologies')}">
+                        Web Technologies
+                    </option>
+                    <option th:selected="${zapros.getCourseName().equals('Java Pro')}">
+                        Java Pro
+                    </option>
+                    <option th:selected="${zapros.getCourseName().equals('UX/UI Design')}">
+                        UX/UI Design
+                    </option>
+                    <option th:selected="${zapros.getCourseName().equals('Django Framework')}">
+                        Django Framework
+                    </option>
+                    <option th:selected="${zapros.getCourseName().equals('Python Programming Language')}">
+                        Python Programming Language
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 mx-auto mb-1">
+                <label th:text="'Телефон:'"></label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 mx-auto mb-3">
+                <input type="text" placeholder="+7(7__)_______" class="form-control" th:name="a_phone"
+                       th:value="${zapros.getPhone()}" disabled>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 mx-auto mb-1">
+                <label th:text="'Комментарии:'"></label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 mx-auto mb-3">
+            <textarea class="form-control" th:rows="7" placeholder="Комментраии" th:name="a_comment"
+                      th:text="${zapros.getCommentary()}" disabled></textarea>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 mx-auto mb-3">
+                <button class="btn btn-success btn-sm" th:hidden="${zapros.isHandled()}">Обработать заявку</button>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-danger btn-sm ms-2" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop">
+                    Удалить заявку
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+    <form th:action="@{/delete}" method="post">
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Удалить запрос</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label>Вы уверены?</label>
+                        <input type="hidden" th:value="${zapros.id}" th:name="d_id">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
+                        <button type="submit" class="btn btn-danger">Да</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+</html>
